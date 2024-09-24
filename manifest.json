@@ -1,0 +1,43 @@
+{
+    "manifest_version":3,
+    "version":"1.0.0",
+    "name":"Vite Extension",
+
+    "action":{
+        "default_popup":"popup.html",
+        "default_icon":"icon512.png"
+    },
+    "web_accessible_resources": [
+      {
+        "resources": ["warning.png","main_site.html"],
+        "matches": ["<all_urls>"]
+      }
+    ],
+    "permissions":[
+        "storage",
+    "tabs",
+    "webRequest",
+    "webNavigation",
+        "scripting",
+        "activeTab"
+    ],
+    "background":{
+        "service_worker":"background.js"   
+
+    },
+    
+      "content_scripts": [
+        {
+          "matches": ["<all_urls>"],
+          "js": ["content.js"]
+        }
+      ],
+
+      "icons": {
+    
+        "512": "icon512.png"    
+      }
+  
+
+    
+}

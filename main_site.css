@@ -1,0 +1,41 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.list {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.list h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.warned {
+    border-right: 2px solid #e0e0e0; /* Optional: Adds a visual divider */
+    padding-right: 20px;
+}
+
+.unwarned {
+    padding-left: 20px;
+}

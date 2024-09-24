@@ -1,0 +1,67 @@
+/* styles.css */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
+.detection-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+    width: 180px; /* Smaller width */
+}
+
+.detection-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4caf50; /* Background color of the text area */
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 12px;
+}
+
+/* .slide-toggle {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+} */
+
+/* Toggle position when checked */
+/* .slide-toggle:checked {
+    transform: translateX(20px); Slide to the right
+} */
+
+/* .slide-toggle:before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #007bff;
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+} */
+
+/* .slide-toggle:checked:before {
+    transform: translate(20px, -50%); Move to the right
+} */
