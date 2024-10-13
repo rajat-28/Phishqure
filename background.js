@@ -1,7 +1,40 @@
 var malicious_site;
 var SQLI;
-var warned=true
+var warned;
 var uniqueArray=new Array();
+
+
+
+async function sendURLtoflask(url,tabId)
+{
+  fetch('http://localhost:5000/predict', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ input: url })  // Send the URL as input to the Flask server
+})
+.then(response => response.json())  // Parse the JSON response
+.then(data => {
+    console.log('Prediction:', data.prediction);  // Log the result
+    // Here you can take further action based on the result
+    if (data.prediction === 'Phishing') {
+      console.log("Entered in the phising zone")
+        // warned=true
+        if(!uniqueArray.includes(url)){
+          // console.log("hello inside the activeTab")
+      storeURL(url)
+      chrome.tabs.sendMessage(tabId,{msg:"warning"},(response)=>{
+        // console.log(response.response)
+      })}
+    } else {
+        warned=false
+    }
+})
+.catch(error => {
+    console.error('Error fetching prediction from Flask server:', error);
+});
+}
 
 function getwarnurl(){
 
@@ -27,18 +60,20 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     malicious_site=result.maliciousSiteChecked ? true : false    
   })
   getwarnurl()
-  console.log(uniqueArray)
+  // console.log(uniqueArray)
  if(malicious_site){ 
 chrome.tabs.query({active:true,currentWindow:true},async function(tabs){
   var activeTab=tabs[0]
-  if(activeTab.url.startsWith("http:")){
-    if(!uniqueArray.includes(activeTab.url)){
-      // console.log("hello inside the activeTab")
-  storeURL(activeTab.url)
-   await chrome.tabs.sendMessage(tabId,{msg:"warning"},(response)=>{
-    // console.log(response.response)
-  })}
-  }
+await sendURLtoflask(activeTab.url,tabId)
+  // if(warned){
+  //   console.log("Inside the warning page")
+  //   if(!uniqueArray.includes(activeTab.url)){
+  //     // console.log("hello inside the activeTab")
+  // storeURL(activeTab.url)
+  //  await chrome.tabs.sendMessage(tabId,{msg:"warning"},(response)=>{
+  //   // console.log(response.response)
+  // })}
+  // }
 })}
     
   });
@@ -55,6 +90,7 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
       }
     });
   }
+  
     
   return true
 })

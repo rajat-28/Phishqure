@@ -19,14 +19,21 @@ function saveCheckboxState(checkboxId, storageKey) {
     state[storageKey] = checkbox.checked;
     chrome.storage.local.set(state);
 }
+function sendReloadMessage() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {action: "reloadPage"});
+    });
+}
 
 // Event listeners to save the state when checkboxes are clicked
 document.getElementById('maliciousSiteCheckbox').addEventListener('change', function() {
     saveCheckboxState('maliciousSiteCheckbox', 'maliciousSiteChecked');
+    sendReloadMessage()
 });
 
 document.getElementById('sqlInjectionCheckbox').addEventListener('change', function() {
     saveCheckboxState('sqlInjectionCheckbox', 'sqlInjectionChecked');
+    sendReloadMessage()
 });
 
 // Load the checkbox states when the page is loaded

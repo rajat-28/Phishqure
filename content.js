@@ -7,6 +7,10 @@
 
 chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
     console.log(`message from background.js ${message.msg}`)
+    if(message.action === 'reloadPage'){
+      console.log("message from the popup.js in the background")
+      location.reload()
+    }
     if (message.msg === 'warning') {
       // Check if the overlay is already present
       if (!document.getElementById('http-warning-overlay')) {       
@@ -74,4 +78,54 @@ continueButton.addEventListener('click', () => {
     sendResponse({response:"message sent to the content.js"})
     return true
   })
-  
+
+
+// for the form checking 
+
+var sqli_site
+chrome.storage.local.get(['sqlInjectionChecked'],function(result){
+  sqli_site=result.sqlInjectionChecked ? true : false    
+  console.log(`sqli box is ${sqli_site}`)
+})
+// Function to handle form submission
+function handleFormSubmit(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  const formData = new FormData(event.target);
+  const username = formData.get('username'); // Replace with the actual username field name
+  const password = formData.get('password'); // Replace with the actual password field name
+
+  // Send data to the backend
+  if(sqli_site){
+  fetch('http://localhost:5000/submit', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+  })
+  .then(response => response.json())
+  .then(data => {
+      if(data.username==="Warn" || data.password==="Warn"){
+        alert("This is the malicious query your info will not be submited")
+        location.reload()
+        
+      }
+      else{
+        window.location.href="https://www.google.com"
+      }
+  })
+  .catch((error) => {
+      console.error('Error:', error);
+  });
+}
+  // Optionally, you can still submit the form if needed
+  // event.target.submit();
+}
+
+// Attach event listeners to all forms
+const forms = document.querySelectorAll('form');
+forms.forEach(form => {
+  form.addEventListener('submit', handleFormSubmit);
+});
+

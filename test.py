@@ -17,6 +17,8 @@ def predict_sql_injection(sentence):
 
     # Transform the input text using the loaded TF-IDF vectorizer
     transformed_sentence = tfidf.transform([sentence])
+    
+    print(f"transformed_sentence is {transformed_sentence}")
 
     # Make a prediction using the loaded model
     prediction = model.predict(transformed_sentence)
@@ -30,5 +32,6 @@ def predict_sql_injection(sentence):
 # Example usage
 if __name__ == '__main__':
     # Example sentence to test
-    test_sentence = "select * from books"
+    test_sentence = "abc"
+    print(f"type of test_sentence is {type(test_sentence)}")
     predict_sql_injection(test_sentence)
