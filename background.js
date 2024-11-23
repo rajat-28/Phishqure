@@ -29,6 +29,8 @@ async function sendURLtoflask(url,tabId)
       })}
     } else {
         warned=false
+        console.log("url is safe")
+      SafeSitevisted(url)  // this the call to the function which store the safe url that we visit 
     }
 })
 .catch(error => {
@@ -44,16 +46,6 @@ function getwarnurl(){
     console.log(uniqueArray)
   })
 }
-  
-
-// (()=>{
-// chrome.storage.local.get(['maliciousSiteChecked', 'sqlInjectionChecked']),function(result){
-//   console.log(`result of the site ${result.maliciousSiteChecked}`)
-//   console.log(`result of the SQL Injection ${result.sqlInjectionChecked}`)
-// }
-// })()
-
-
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   chrome.storage.local.get(['maliciousSiteChecked', 'sqlInjectionChecked'],function(result){
@@ -65,15 +57,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 chrome.tabs.query({active:true,currentWindow:true},async function(tabs){
   var activeTab=tabs[0]
 await sendURLtoflask(activeTab.url,tabId)
-  // if(warned){
-  //   console.log("Inside the warning page")
-  //   if(!uniqueArray.includes(activeTab.url)){
-  //     // console.log("hello inside the activeTab")
-  // storeURL(activeTab.url)
-  //  await chrome.tabs.sendMessage(tabId,{msg:"warning"},(response)=>{
-  //   // console.log(response.response)
-  // })}
-  // }
+  
 })}
     
   });
@@ -109,4 +93,14 @@ function storeURL(url) {
       // console.log('URL stored:', url);
     });
   });
+}
+
+function SafeSitevisted(url){   // it is the function that store the safe urls
+  console.log("the safe site function is called")
+  chrome.storage.local.get(['safeUrlVisit'],(result)=>{
+    let safeUrl= result.safeUrlVisit || []
+    safeUrl.push(url)
+    chrome.storage.local.set({safeUrlVisit:safeUrl})
+    console.log(safeUrl)
+  })
 }

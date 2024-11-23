@@ -1,9 +1,4 @@
 
-// chrome.runtime.sendMessage({
-// type:"confirm"
-// },(response)=>{
-//   console.log(response.Response)
-// })
 
 chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
     console.log(`message from background.js ${message.msg}`)
@@ -107,12 +102,21 @@ function handleFormSubmit(event) {
   .then(response => response.json())
   .then(data => {
       if(data.username==="Warn" || data.password==="Warn"){
-        alert("This is the malicious query your info will not be submited")
-        location.reload()
+        // alert("This is the malicious query your info will not be submited")
+        showWarningPopup(
+          "This is a malicious query. You can not continue further?",
+          
+          () => {
+              // User cancels
+              console.log("User chose to cancel.");
+          }
+      );
+        // location.reload()
         
       }
       else{
-        window.location.href="https://www.google.com"
+        event.target.submit()
+        location.reload()
       }
   })
   .catch((error) => {
@@ -129,3 +133,56 @@ forms.forEach(form => {
   form.addEventListener('submit', handleFormSubmit);
 });
 
+function showWarningPopup(message, onCancel) {
+  // Check if the popup is already present
+  if (document.getElementById('warning-popup')) {
+      return;
+  }
+
+  // Create the overlay for warning popup
+  const overlay = document.createElement('div');
+  overlay.id = 'warning-overlay';
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  overlay.style.zIndex = '9999';
+  overlay.style.display = 'flex';
+  overlay.style.justifyContent = 'center';
+  overlay.style.alignItems = 'center';
+
+  // Create the popup container
+  const popup = document.createElement('div');
+  popup.id = 'warning-popup';
+  popup.style.width = '400px';
+  popup.style.padding = '20px';
+  popup.style.backgroundColor = 'white';
+  popup.style.borderRadius = '8px';
+  popup.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+  popup.style.textAlign = 'center';
+
+  // Add warning message
+  const warningText = document.createElement('p');
+  warningText.textContent = message;
+
+  // Add buttons
+  const cancelButton = document.createElement('button');
+  cancelButton.textContent = 'Cancel';
+
+  // Append elements
+  popup.appendChild(warningText);
+  popup.appendChild(cancelButton);
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+
+  // Add event listeners
+  
+
+  cancelButton.addEventListener('click', () => {      // popup cancel button 
+      if (onCancel) onCancel();
+      document.body.removeChild(overlay);
+      location.reload()
+  });
+}

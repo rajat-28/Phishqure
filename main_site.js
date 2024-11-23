@@ -10,11 +10,12 @@ chrome.storage.local.get(['unwarnUrls'],(result)=>{
     }
 })
 
-chrome.storage.local.get(['warnURLs','unwarnUrls'],function(result){
+chrome.storage.local.get(['warnURLs','unwarnUrls','safeUrlVisit'],function(result){
     const {warnURLs}=result
     const uniqueArray2 = [...new Set(result.unwarnUrls)]
     // console.log(`warned urls are ${}`)
     const uniqueArray = [...new Set(result.warnURLs)];
+    const uniqueArray3=[...new Set(result.safeUrlVisit)]
     // console.log(`the warnUrls are ${warnURLs.url}`)
     // console.log(uniqueArray)
 
@@ -77,7 +78,24 @@ chrome.storage.local.get(['warnURLs','unwarnUrls'],function(result){
         )
     }
 
-
+const displayDiv3=document.getElementById("safeSites")
+if(!uniqueArray3){
+displayDiv3.innerHTML="<i>You haven't visit any safe site</i>"
+}
+else{
+    uniqueArray3.forEach(
+        url=>{
+            const p3=document.createElement('p')
+            p3.textContent=url
+            const container2=document.createElement('div')
+            container2.style.display='flex'
+            container2.style.alignItems='center'
+            // container2.appendChild(unc)
+            container2.appendChild(p3)
+            displayDiv3.appendChild(container2)
+        }
+    )
+}
 
 })
 const form=document.getElementById('urlform')
