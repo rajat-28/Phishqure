@@ -16,20 +16,97 @@ body {
     padding: 10px;
     border: 2px solid #ccc;
     border-radius: 10px;
-    background-color: #e0e0e0;
-    width: 180px; /* Smaller width */
+    background-color:black;
+    width: 182px; /* Smaller width */
 }
 
 .detection-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #4caf50; /* Background color of the text area */
+    background-color:whitesmoke; /* Background color of the text area */
+    color: #ff6a3e;
     padding: 5px 10px;
     border-radius: 20px;
     color: white;
-    font-size: 12px;
+    font-size: 15px;
 }
+
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+    /* padding-left: 2px; */
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 2.5px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+
+
+/* Stylish Link */
+#redirectLink {
+    display: inline-block;
+    padding: 4px 11px;
+    background-color:lightgray; 
+    color: black; 
+    font-size: 18px;
+    /* font-weight: bold; */
+    text-decoration: none; /* Remove underline */
+    border-radius: 8px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+#redirectLink:hover {
+    /* background-color: #ff6a3e; Darker green on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+}
+
+#redirectLink:active {
+    background-color: #ff6a3e; /* Even darker green on click */
+    transform: translateY(2px); /* Pressed effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Lighter shadow on click */
+}
+
 
 /* .slide-toggle {
     appearance: none;

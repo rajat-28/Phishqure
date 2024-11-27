@@ -9,15 +9,21 @@
 <body>
     <div class="detection-box">
         <div class="detection-item">
-            <span>Malicious Site</span>
-            <input type="checkbox"  id="maliciousSiteCheckbox" class="slide-toggle" >
+            <span style="color: #ff6a3e; font-weight: bolder; ">Malicious Site</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="maliciousSiteCheckbox" class="slide-toggle">
+                <span class="slider"></span>
+            </label>
         </div>
         <div class="detection-item">
-            <span>SQL Injection</span>
-            <input type="checkbox" id="sqlInjectionCheckbox" class="slide-toggle" >
+            <span style="color: #ff6a3e; font-weight: bolder; ">SQL Injection</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="sqlInjectionCheckbox" class="slide-toggle">
+                <span class="slider"></span>
+            </label>
         </div>
         <a href="main_site.html" target="_blank" id="redirectLink" >Go to Main page</a>
     </div>
-<script src="popup.js"></script>
+    <script src="popup.js"></script>
 </body>
 </html>
